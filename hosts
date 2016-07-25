@@ -1,0 +1,2 @@
+[oracle_db]
+orcl listener_host=192.168.56.101 listener_port=1521 service_name=orcl
