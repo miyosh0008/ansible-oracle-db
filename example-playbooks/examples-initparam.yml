@@ -1,0 +1,17 @@
+---
+- hosts: oracle_db
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Set Initialization Parameters for Oracle DBs
+      oracle_db_initparam:
+        host={{ listener_host }} port={{ listener_port }} service={{ service_name }}
+        user=sys password=welcome1 as_sysdba=True
+        name={{ item.name }} value={{ item.value }} scope={{ item.scope }} instances={{ item.instances }}
+      with_items:
+        - { name: "optimizer_use_invisible_indexes", value: "FALSE", scope: "" , instances: "" }
+        - { name: "sga_max_size", value: "16G", scope: "SPFILE", instances: "*" }
+        - { name: "sga_target", value: "16G", scope: "SPFILE", instances: "*" }
+        - { name: "pga_aggregate_limit", value: "2G", scope: "SPFILE", instances: "*" }
+        - { name: "pga_aggregate_target", value: "1G", scope: "SPFILE", instances: "*" }
